@@ -1,0 +1,37 @@
+[
+  {
+    "player": "Alex_Vanguard",
+    "score": 1250,
+    "accuracy": 90.0,
+    "category": "Python & Programming",
+    "date": "2026-10-01"
+  },
+  {
+    "player": "CyberNeo",
+    "score": 980,
+    "accuracy": 80.0,
+    "category": "Science & Technology",
+    "date": "2026-10-02"
+  },
+  {
+    "player": "Luna_Star",
+    "score": 750,
+    "accuracy": 70.0,
+    "category": "General Knowledge",
+    "date": "2026-10-03"
+  },
+  {
+    "player": "Ayaan",
+    "score": 138,
+    "accuracy": 20.0,
+    "category": "General Knowledge",
+    "date": "2026-10-07 12:15"
+  },
+  {
+    "player": "Tester",
+    "score": 0,
+    "accuracy": 0.0,
+    "category": "Python & Programming",
+    "date": "2026-10-07 12:12"
+  }
+]
