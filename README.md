@@ -34,6 +34,11 @@ A professional, modern desktop Quiz Game application built with **Python** and *
 - **🏆 Persistent Hall of Fame & Leaderboard**:
   - Top 3 Podium display (Gold 🥇, Silver 🥈, Bronze 🥉).
   - JSON-backed persistent leaderboard tracking player scores, accuracy, and timestamps.
+- **📄 AI PDF Quiz Generator (OpenRouter Free API)**:
+  - Upload any study PDF document (lecture notes, syllabus, research papers, chapters).
+  - Automatically extracts and previews readable text.
+  - Generates bespoke, high-quality multiple choice questions with explanations and hints using OpenRouter's free tier AI models.
+  - Play the PDF quiz instantly with lifelines, streaks, and review, or save to your permanent question bank!
 - **✏️ Custom Question Studio**:
   - Add your own custom quiz questions with custom answers, difficulty, hints, and explanations.
 

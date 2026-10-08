@@ -10,6 +10,7 @@ from src.ui.quiz_screen import QuizScreen
 from src.ui.result_screen import ResultScreen
 from src.ui.leaderboard_screen import LeaderboardScreen
 from src.ui.create_screen import CreateScreen
+from src.ui.pdf_screen import PDFScreen
 
 class MainWindow(ctk.CTk):
     """Main Application Window."""
@@ -53,6 +54,21 @@ class MainWindow(ctk.CTk):
         # Right Controls (Sound Toggle & Theme Toggle)
         controls_box = ctk.CTkFrame(navbar, fg_color="transparent")
         controls_box.grid(row=0, column=2, padx=20, pady=10)
+
+        # PDF AI Quick Button
+        self.pdf_nav_btn = ctk.CTkButton(
+            controls_box,
+            text="📄 PDF AI Quiz",
+            width=110,
+            height=32,
+            font=FONTS["body_bold"],
+            fg_color=COLORS["secondary"],
+            text_color="#000000",
+            hover_color=COLORS["secondary_hover"],
+            corner_radius=8,
+            command=self.show_pdf_quiz
+        )
+        self.pdf_nav_btn.pack(side="left", padx=6)
 
         # Sound Button
         self.sound_btn = ctk.CTkButton(
@@ -105,7 +121,17 @@ class MainWindow(ctk.CTk):
             on_start_quiz=self.start_quiz,
             on_view_leaderboard=self.show_leaderboard,
             on_view_editor=self.show_editor,
+            on_view_pdf=self.show_pdf_quiz,
             storage=self.storage
+        )
+        self._switch_screen(screen)
+
+    def show_pdf_quiz(self):
+        screen = PDFScreen(
+            parent=self.viewport,
+            question_bank=self.question_bank,
+            on_start_custom_quiz=self.start_custom_quiz,
+            on_go_home=self.show_home
         )
         self._switch_screen(screen)
 
@@ -136,20 +162,46 @@ class MainWindow(ctk.CTk):
         )
         self._switch_screen(screen)
 
+    def start_custom_quiz(self, player_name: str, questions: list, category: str = "PDF Quiz", difficulty: str = "Medium"):
+        self.active_engine = QuizEngine(
+            player_name=player_name,
+            category=category,
+            difficulty=difficulty,
+            questions=questions
+        )
+
+        screen = QuizScreen(
+            parent=self.viewport,
+            engine=self.active_engine,
+            on_quiz_finished=self.show_results,
+            on_quit_quiz=self.show_home
+        )
+        self._switch_screen(screen)
+
     def show_results(self):
         if not self.active_engine:
             self.show_home()
             return
 
         summary = self.active_engine.get_summary()
+        current_questions = list(self.active_engine.questions)
+        is_pdf_or_custom = summary.category.startswith("PDF:")
+
         screen = ResultScreen(
             parent=self.viewport,
             summary=summary,
-            on_play_again=lambda: self.start_quiz(
-                summary.player_name,
-                summary.category,
-                summary.difficulty,
-                summary.total_questions
+            on_play_again=lambda: (
+                self.start_custom_quiz(
+                    summary.player_name,
+                    current_questions,
+                    summary.category,
+                    summary.difficulty
+                ) if is_pdf_or_custom else self.start_quiz(
+                    summary.player_name,
+                    summary.category,
+                    summary.difficulty,
+                    summary.total_questions
+                )
             ),
             on_view_leaderboard=self.show_leaderboard,
             on_go_home=self.show_home,

@@ -14,12 +14,14 @@ class HomeScreen(ctk.CTkFrame):
         on_start_quiz: Callable[[str, str, str, int], None],
         on_view_leaderboard: Callable[[], None],
         on_view_editor: Callable[[], None],
+        on_view_pdf: Callable[[], None],
         storage: StorageManager
     ):
         super().__init__(parent, fg_color="transparent")
         self.on_start_quiz = on_start_quiz
         self.on_view_leaderboard = on_view_leaderboard
         self.on_view_editor = on_view_editor
+        self.on_view_pdf = on_view_pdf
         self.storage = storage
 
         self._build_ui()
@@ -83,9 +85,62 @@ class HomeScreen(ctk.CTkFrame):
             ctk.CTkLabel(pill_box, text=f"{label}: ", font=FONTS["body_small"], text_color=COLORS["text_secondary"]).pack(side="left", padx=(10, 2), pady=6)
             ctk.CTkLabel(pill_box, text=val, font=FONTS["body_bold"], text_color=COLORS["primary"]).pack(side="left", padx=(0, 10), pady=6)
 
+        # --- AI PDF QUIZ BANNER CARD ---
+        pdf_card = ctk.CTkFrame(container, fg_color=COLORS["bg_card"], corner_radius=18, border_width=2, border_color=COLORS["primary"])
+        pdf_card.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 15), ipady=12)
+        pdf_card.grid_columnconfigure(0, weight=1)
+        pdf_card.grid_columnconfigure(1, weight=0)
+
+        pdf_info = ctk.CTkFrame(pdf_card, fg_color="transparent")
+        pdf_info.grid(row=0, column=0, sticky="nsew", padx=20, pady=10)
+
+        pdf_badge = ctk.CTkLabel(
+            pdf_info,
+            text="✨ NEW • OPENROUTER FREE AI",
+            font=FONTS["badge"],
+            text_color=COLORS["secondary"],
+            fg_color=COLORS["bg_card_secondary"],
+            corner_radius=6,
+            padx=10,
+            pady=3
+        )
+        pdf_badge.pack(anchor="w", pady=(0, 4))
+
+        pdf_title = ctk.CTkLabel(
+            pdf_info,
+            text="📄 Study Any PDF with AI-Generated Quizzes",
+            font=FONTS["title"],
+            text_color=COLORS["text_primary"]
+        )
+        pdf_title.pack(anchor="w")
+
+        pdf_desc = ctk.CTkLabel(
+            pdf_info,
+            text="Upload your lecture notes, textbook chapters, or documents. OpenRouter Free AI will craft questions for you!",
+            font=FONTS["body_small"],
+            text_color=COLORS["text_secondary"]
+        )
+        pdf_desc.pack(anchor="w", pady=(2, 0))
+
+        pdf_btn_box = ctk.CTkFrame(pdf_card, fg_color="transparent")
+        pdf_btn_box.grid(row=0, column=1, padx=20, pady=10)
+
+        open_pdf_btn = ctk.CTkButton(
+            pdf_btn_box,
+            text="Upload PDF & Play ➔",
+            font=FONTS["body_bold"],
+            fg_color=COLORS["secondary"],
+            hover_color=COLORS["secondary_hover"],
+            text_color="#000000",
+            height=44,
+            corner_radius=12,
+            command=self.on_view_pdf
+        )
+        open_pdf_btn.pack(side="right")
+
         # --- CONFIGURATION CARD ---
         config_card = ctk.CTkFrame(container, fg_color=COLORS["bg_card"], corner_radius=18, border_width=1, border_color=COLORS["border"])
-        config_card.grid(row=1, column=0, sticky="ew", padx=10, pady=10, ipady=10)
+        config_card.grid(row=2, column=0, sticky="ew", padx=10, pady=10, ipady=10)
         config_card.grid_columnconfigure((0, 1), weight=1)
 
         # 1. Player Name
@@ -161,8 +216,8 @@ class HomeScreen(ctk.CTkFrame):
 
         # --- ACTION BUTTONS ---
         action_frame = ctk.CTkFrame(container, fg_color="transparent")
-        action_frame.grid(row=2, column=0, sticky="ew", padx=10, pady=(10, 20))
-        action_frame.grid_columnconfigure((0, 1), weight=1)
+        action_frame.grid(row=3, column=0, sticky="ew", padx=10, pady=(10, 20))
+        action_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # Big Launch Button
         start_btn = ctk.CTkButton(
@@ -175,7 +230,7 @@ class HomeScreen(ctk.CTkFrame):
             corner_radius=14,
             command=self._handle_start
         )
-        start_btn.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 12))
+        start_btn.grid(row=0, column=0, columnspan=3, sticky="ew", pady=(0, 12))
 
         # Secondary Actions
         lead_btn = ctk.CTkButton(
@@ -191,11 +246,26 @@ class HomeScreen(ctk.CTkFrame):
             corner_radius=10,
             command=self.on_view_leaderboard
         )
-        lead_btn.grid(row=1, column=0, sticky="ew", padx=(0, 6))
+        lead_btn.grid(row=1, column=0, sticky="ew", padx=(0, 4))
+
+        pdf_action_btn = ctk.CTkButton(
+            action_frame,
+            text="📄 PDF Quiz Studio",
+            font=FONTS["body_bold"],
+            fg_color=COLORS["bg_card"],
+            text_color=COLORS["secondary"],
+            hover_color=COLORS["border"],
+            border_width=1,
+            border_color=COLORS["border_highlight"],
+            height=42,
+            corner_radius=10,
+            command=self.on_view_pdf
+        )
+        pdf_action_btn.grid(row=1, column=1, sticky="ew", padx=4)
 
         editor_btn = ctk.CTkButton(
             action_frame,
-            text="✏️ Custom Questions",
+            text="✏️ Custom Studio",
             font=FONTS["body_bold"],
             fg_color=COLORS["bg_card"],
             text_color=COLORS["text_primary"],
@@ -206,7 +276,7 @@ class HomeScreen(ctk.CTkFrame):
             corner_radius=10,
             command=self.on_view_editor
         )
-        editor_btn.grid(row=1, column=1, sticky="ew", padx=(6, 0))
+        editor_btn.grid(row=1, column=2, sticky="ew", padx=(4, 0))
 
     def _on_slider_change(self, val):
         count = int(val)

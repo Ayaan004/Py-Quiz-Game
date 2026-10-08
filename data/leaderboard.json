@@ -7,6 +7,13 @@
     "date": "2026-10-01"
   },
   {
+    "player": "Challenger",
+    "score": 1026,
+    "accuracy": 46.7,
+    "category": "PDF: bitcoin.pdf",
+    "date": "2026-10-08 12:52"
+  },
+  {
     "player": "CyberNeo",
     "score": 980,
     "accuracy": 80.0,
@@ -33,5 +40,12 @@
     "accuracy": 0.0,
     "category": "Python & Programming",
     "date": "2026-10-07 12:12"
+  },
+  {
+    "player": "Tester",
+    "score": 0,
+    "accuracy": 0.0,
+    "category": "PDF: Test",
+    "date": "2026-10-08 12:43"
   }
 ]
