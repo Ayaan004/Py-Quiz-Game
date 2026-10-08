@@ -9,7 +9,7 @@ from typing import List, Dict, Optional, Callable, Tuple
 import pypdf
 from src.models import Question
 
-DEFAULT_API_KEY = "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"
+DEFAULT_API_KEY = "sk-or-v1-11f9199331d54e7be0fac95c20135a6f6f5a952f294376b3f31194ad7a634a"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODELS_URL = "https://openrouter.ai/api/v1/models"
 
